@@ -61,6 +61,37 @@ for z in zs:
     print(f"  z={z}: x_c={sections[-1]['x_center_mm']} w={sections[-1]['width_x_mm']} "
           f"d={sections[-1]['depth_y_mm']} front_y={sections[-1]['y_front_mm']} pts={len(xy)}")
 
+# ---- 2b. attachment footprints (slice near the actual ends) ----
+def slice_outline(z):
+    sec = outer.section(plane_origin=[0, 0, z], plane_normal=[0, 0, 1])
+    if sec is None:
+        return None
+    loop = max(sec.discrete, key=len)
+    return np.round(loop[:, :2], 1)
+
+z_base = round(zlo + 3, 1); z_neck = round(zhi - 3, 1)
+base_xy = slice_outline(z_base); neck_xy = slice_outline(z_neck)
+attachments = {
+    'soundbox_to_base': {
+        'join_z_mm': z_base,
+        'soundbox_end_outline_xy': base_xy.tolist() if base_xy is not None else [],
+        'base_part_footprint': {'x_mm': [-494.5, 494.5], 'y_mm': [-266.9, 266.9], 'z_top_mm': 140.0},
+        'note': 'Soundbox bass cap seats onto the base top (base spans z 0..140). '
+                'Contact = the soundbox end outline below, dropped onto the base top plane (z=140).',
+    },
+    'soundbox_to_neck': {
+        'join_z_mm': z_neck,
+        'soundbox_end_outline_xy': neck_xy.tolist() if neck_xy is not None else [],
+        'neck_pin_line_treble_mm': [476.15, 20.84, 1404.38],
+        'neck_section_at_end_mm': [40, 33],
+        'pillar_top_mm': [-303.11, 54.0, 1859.75],
+        'note': 'Neck (super-ellipse 40x33 mm at this end) ties into the treble-top of the body; '
+                'the pillar top closes the frame triangle at the point above.',
+    },
+}
+print(f"attach: base join z={z_base} ({0 if base_xy is None else len(base_xy)} pts), "
+      f"neck join z={z_neck} ({0 if neck_xy is None else len(neck_xy)} pts)")
+
 # ---- 3. soundbox axis (centerline through section centroids) ----
 axis = [[s['x_center_mm'], 0.0, s['z_mm']] for s in sections]
 axis_len = float(np.sum(np.linalg.norm(np.diff(np.array(axis), axis=0), axis=1)))
@@ -114,6 +145,7 @@ data = {
                    'rake_deg_design': 37.0, 'rake_deg_measured': 35.3,
                    'string_crossings': string_pts},
     'soundholes': holes,
+    'attachments': attachments,
     'back_construction': 'continuous lofted super-ellipse shell (NOT faceted staves); '
         'no internal ribs/bulkheads modeled in the soundbox (soundboard carries a CF/woven spine; '
         'base has bulkheads). Back transverse crown radius = 200 mm (param).',
