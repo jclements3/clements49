@@ -1,0 +1,46 @@
+{
+  "count": 49,
+  "range": "A0..G7",
+  "sigma_T_N": 9269.4,
+  "sigma_T_lbf": 2083.8,
+  "A0_row": {
+    "idx": 0,
+    "note": "A",
+    "octave": 0,
+    "f0_hz": 27.5,
+    "vib_len_mm": 1455.1,
+    "tension_N": 147.5,
+    "material": "wire"
+  },
+  "rake_median_deg": 35.3,
+  "rake_min_deg": 21.3,
+  "rake_max_deg": 37.9,
+  "perp_pull_N": 5304.7,
+  "inplane_pull_N": 7587.7,
+  "perp_at_37": 5578.5,
+  "inplane_at_37": 7402.9,
+  "neck_moment_Nm": 855.2,
+  "neck_moment_peak_frac": 0.457,
+  "RA_N": 4252.7,
+  "RB_N": 3505.8,
+  "W_perp_N": 7758.5,
+  "pillar_axial_N": 9227.7,
+  "resultant_xz_N": [
+    -515.3,
+    9237.3
+  ],
+  "neck_pin_span_mm": 832.7,
+  "board_string_span_mm": 1310.5,
+  "neck_bass_extension_mm": 34.7,
+  "board_bass_extension_mm": 81.1,
+  "bass_endpoint_A0_pin": [
+    -245.75,
+    20.84,
+    1819.35
+  ],
+  "bass_endpoint_A0_board": [
+    -247.07,
+    1.88,
+    117.35
+  ]
+}

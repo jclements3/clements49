@@ -1,0 +1,450 @@
+{
+  "count": 49,
+  "naming_note": "Scientific pitch. Range A0 (idx 0, 27.5 Hz) .. G7 (idx 48). All-naturals (C-major) home tuning; double-action pedals raise each.",
+  "discrepancy_resolution": "Spec '0G-7A / 49 strings' resolved per user direction: keep the standard 47-string core C1..G7 and add BOTH extra strings in the BASS -> A0 and B0 below C1. Final range A0..G7 = 49 strings (idx 0=A0 .. idx 48=G7). The original 47 (C1..G7) map to idx 2..48; idx 0 (A0) and idx 1 (B0) are the new bass strings. Treble caps at G7 (no A7).",
+  "spacing_law": "Neck pin line: constant 10 mm pitch. Board exit line: graded s_board(i)=6.5+(24-6.5)*((48-i)/48)^0.85 mm (treble->bass). Measured anchor endpoints (params.scad) are pinned at idx 2 (C1) and idx 48 (G7); idx 0,1 extrapolate below the bass end.",
+  "sigma_T_N": 9269.4,
+  "strings": [
+    {
+      "idx": 0,
+      "note": "A",
+      "octave": 0,
+      "f0_hz": 27.5,
+      "vib_len_mm": 1455.1,
+      "tension_N": 147.5,
+      "material": "wire"
+    },
+    {
+      "idx": 1,
+      "note": "B",
+      "octave": 0,
+      "f0_hz": 30.868,
+      "vib_len_mm": 1354.5,
+      "tension_N": 153.7,
+      "material": "wire"
+    },
+    {
+      "idx": 2,
+      "note": "C",
+      "octave": 1,
+      "f0_hz": 32.703,
+      "vib_len_mm": 1306.8,
+      "tension_N": 159.7,
+      "material": "wire"
+    },
+    {
+      "idx": 3,
+      "note": "D",
+      "octave": 1,
+      "f0_hz": 36.708,
+      "vib_len_mm": 1216.5,
+      "tension_N": 172.6,
+      "material": "wire"
+    },
+    {
+      "idx": 4,
+      "note": "E",
+      "octave": 1,
+      "f0_hz": 41.203,
+      "vib_len_mm": 1132.4,
+      "tension_N": 185.5,
+      "material": "wire"
+    },
+    {
+      "idx": 5,
+      "note": "F",
+      "octave": 1,
+      "f0_hz": 43.654,
+      "vib_len_mm": 1092.6,
+      "tension_N": 192.0,
+      "material": "wire"
+    },
+    {
+      "idx": 6,
+      "note": "G",
+      "octave": 1,
+      "f0_hz": 48.999,
+      "vib_len_mm": 1017.1,
+      "tension_N": 204.9,
+      "material": "wire"
+    },
+    {
+      "idx": 7,
+      "note": "A",
+      "octave": 1,
+      "f0_hz": 55.0,
+      "vib_len_mm": 946.8,
+      "tension_N": 217.5,
+      "material": "wire"
+    },
+    {
+      "idx": 8,
+      "note": "B",
+      "octave": 1,
+      "f0_hz": 61.735,
+      "vib_len_mm": 881.3,
+      "tension_N": 230.1,
+      "material": "wire"
+    },
+    {
+      "idx": 9,
+      "note": "C",
+      "octave": 2,
+      "f0_hz": 65.406,
+      "vib_len_mm": 850.3,
+      "tension_N": 236.0,
+      "material": "wire"
+    },
+    {
+      "idx": 10,
+      "note": "D",
+      "octave": 2,
+      "f0_hz": 73.416,
+      "vib_len_mm": 791.5,
+      "tension_N": 241.7,
+      "material": "wire"
+    },
+    {
+      "idx": 11,
+      "note": "E",
+      "octave": 2,
+      "f0_hz": 82.407,
+      "vib_len_mm": 736.8,
+      "tension_N": 247.5,
+      "material": "wire"
+    },
+    {
+      "idx": 12,
+      "note": "F",
+      "octave": 2,
+      "f0_hz": 87.307,
+      "vib_len_mm": 710.9,
+      "tension_N": 250.4,
+      "material": "wire"
+    },
+    {
+      "idx": 13,
+      "note": "G",
+      "octave": 2,
+      "f0_hz": 97.999,
+      "vib_len_mm": 661.8,
+      "tension_N": 256.2,
+      "material": "wire"
+    },
+    {
+      "idx": 14,
+      "note": "A",
+      "octave": 2,
+      "f0_hz": 110.0,
+      "vib_len_mm": 616.0,
+      "tension_N": 258.2,
+      "material": "gut-or-nylon-low"
+    },
+    {
+      "idx": 15,
+      "note": "B",
+      "octave": 2,
+      "f0_hz": 123.471,
+      "vib_len_mm": 573.4,
+      "tension_N": 260.2,
+      "material": "gut-or-nylon-low"
+    },
+    {
+      "idx": 16,
+      "note": "C",
+      "octave": 3,
+      "f0_hz": 130.813,
+      "vib_len_mm": 553.3,
+      "tension_N": 261.3,
+      "material": "gut-or-nylon-low"
+    },
+    {
+      "idx": 17,
+      "note": "D",
+      "octave": 3,
+      "f0_hz": 146.832,
+      "vib_len_mm": 515.0,
+      "tension_N": 255.5,
+      "material": "gut-or-nylon-low"
+    },
+    {
+      "idx": 18,
+      "note": "E",
+      "octave": 3,
+      "f0_hz": 164.814,
+      "vib_len_mm": 479.4,
+      "tension_N": 249.6,
+      "material": "gut-or-nylon-low"
+    },
+    {
+      "idx": 19,
+      "note": "F",
+      "octave": 3,
+      "f0_hz": 174.614,
+      "vib_len_mm": 462.6,
+      "tension_N": 246.7,
+      "material": "gut-or-nylon-low"
+    },
+    {
+      "idx": 20,
+      "note": "G",
+      "octave": 3,
+      "f0_hz": 195.998,
+      "vib_len_mm": 430.6,
+      "tension_N": 240.8,
+      "material": "gut-or-nylon-low"
+    },
+    {
+      "idx": 21,
+      "note": "A",
+      "octave": 3,
+      "f0_hz": 220.0,
+      "vib_len_mm": 400.8,
+      "tension_N": 230.6,
+      "material": "gut-or-nylon-low"
+    },
+    {
+      "idx": 22,
+      "note": "B",
+      "octave": 3,
+      "f0_hz": 246.942,
+      "vib_len_mm": 373.1,
+      "tension_N": 220.4,
+      "material": "gut-or-nylon-low"
+    },
+    {
+      "idx": 23,
+      "note": "C",
+      "octave": 4,
+      "f0_hz": 261.626,
+      "vib_len_mm": 360.0,
+      "tension_N": 215.3,
+      "material": "gut-or-nylon-mid"
+    },
+    {
+      "idx": 24,
+      "note": "D",
+      "octave": 4,
+      "f0_hz": 293.665,
+      "vib_len_mm": 335.1,
+      "tension_N": 210.8,
+      "material": "gut-or-nylon-mid"
+    },
+    {
+      "idx": 25,
+      "note": "E",
+      "octave": 4,
+      "f0_hz": 329.628,
+      "vib_len_mm": 312.0,
+      "tension_N": 206.4,
+      "material": "gut-or-nylon-mid"
+    },
+    {
+      "idx": 26,
+      "note": "F",
+      "octave": 4,
+      "f0_hz": 349.228,
+      "vib_len_mm": 301.0,
+      "tension_N": 204.2,
+      "material": "gut-or-nylon-mid"
+    },
+    {
+      "idx": 27,
+      "note": "G",
+      "octave": 4,
+      "f0_hz": 391.995,
+      "vib_len_mm": 280.2,
+      "tension_N": 199.8,
+      "material": "gut-or-nylon-mid"
+    },
+    {
+      "idx": 28,
+      "note": "A",
+      "octave": 4,
+      "f0_hz": 440.0,
+      "vib_len_mm": 260.8,
+      "tension_N": 193.6,
+      "material": "gut-or-nylon-mid"
+    },
+    {
+      "idx": 29,
+      "note": "B",
+      "octave": 4,
+      "f0_hz": 493.883,
+      "vib_len_mm": 242.8,
+      "tension_N": 187.5,
+      "material": "gut-or-nylon-mid"
+    },
+    {
+      "idx": 30,
+      "note": "C",
+      "octave": 5,
+      "f0_hz": 523.251,
+      "vib_len_mm": 234.2,
+      "tension_N": 184.4,
+      "material": "gut-or-nylon-mid"
+    },
+    {
+      "idx": 31,
+      "note": "D",
+      "octave": 5,
+      "f0_hz": 587.33,
+      "vib_len_mm": 218.1,
+      "tension_N": 178.6,
+      "material": "gut-or-nylon-mid"
+    },
+    {
+      "idx": 32,
+      "note": "E",
+      "octave": 5,
+      "f0_hz": 659.255,
+      "vib_len_mm": 203.0,
+      "tension_N": 172.7,
+      "material": "gut-or-nylon-mid"
+    },
+    {
+      "idx": 33,
+      "note": "F",
+      "octave": 5,
+      "f0_hz": 698.456,
+      "vib_len_mm": 195.8,
+      "tension_N": 169.8,
+      "material": "gut-or-nylon-mid"
+    },
+    {
+      "idx": 34,
+      "note": "G",
+      "octave": 5,
+      "f0_hz": 783.991,
+      "vib_len_mm": 182.3,
+      "tension_N": 163.9,
+      "material": "gut-or-nylon-mid"
+    },
+    {
+      "idx": 35,
+      "note": "A",
+      "octave": 5,
+      "f0_hz": 880.0,
+      "vib_len_mm": 169.7,
+      "tension_N": 159.8,
+      "material": "gut-or-nylon-mid"
+    },
+    {
+      "idx": 36,
+      "note": "B",
+      "octave": 5,
+      "f0_hz": 987.767,
+      "vib_len_mm": 158.0,
+      "tension_N": 155.7,
+      "material": "gut-or-nylon-mid"
+    },
+    {
+      "idx": 37,
+      "note": "C",
+      "octave": 6,
+      "f0_hz": 1046.502,
+      "vib_len_mm": 152.4,
+      "tension_N": 153.7,
+      "material": "nylon-high"
+    },
+    {
+      "idx": 38,
+      "note": "D",
+      "octave": 6,
+      "f0_hz": 1174.659,
+      "vib_len_mm": 141.9,
+      "tension_N": 149.3,
+      "material": "nylon-high"
+    },
+    {
+      "idx": 39,
+      "note": "E",
+      "octave": 6,
+      "f0_hz": 1318.51,
+      "vib_len_mm": 132.1,
+      "tension_N": 144.9,
+      "material": "nylon-high"
+    },
+    {
+      "idx": 40,
+      "note": "F",
+      "octave": 6,
+      "f0_hz": 1396.913,
+      "vib_len_mm": 127.4,
+      "tension_N": 142.7,
+      "material": "nylon-high"
+    },
+    {
+      "idx": 41,
+      "note": "G",
+      "octave": 6,
+      "f0_hz": 1567.982,
+      "vib_len_mm": 118.6,
+      "tension_N": 138.3,
+      "material": "nylon-high"
+    },
+    {
+      "idx": 42,
+      "note": "A",
+      "octave": 6,
+      "f0_hz": 1760.0,
+      "vib_len_mm": 110.4,
+      "tension_N": 132.2,
+      "material": "nylon-high"
+    },
+    {
+      "idx": 43,
+      "note": "B",
+      "octave": 6,
+      "f0_hz": 1975.533,
+      "vib_len_mm": 102.8,
+      "tension_N": 126.0,
+      "material": "nylon-high"
+    },
+    {
+      "idx": 44,
+      "note": "C",
+      "octave": 7,
+      "f0_hz": 2093.005,
+      "vib_len_mm": 99.2,
+      "tension_N": 123.0,
+      "material": "nylon-high"
+    },
+    {
+      "idx": 45,
+      "note": "D",
+      "octave": 7,
+      "f0_hz": 2349.318,
+      "vib_len_mm": 92.3,
+      "tension_N": 116.8,
+      "material": "nylon-high"
+    },
+    {
+      "idx": 46,
+      "note": "E",
+      "octave": 7,
+      "f0_hz": 2637.02,
+      "vib_len_mm": 85.9,
+      "tension_N": 110.7,
+      "material": "nylon-high"
+    },
+    {
+      "idx": 47,
+      "note": "F",
+      "octave": 7,
+      "f0_hz": 2793.826,
+      "vib_len_mm": 82.9,
+      "tension_N": 108.0,
+      "material": "nylon-high"
+    },
+    {
+      "idx": 48,
+      "note": "G",
+      "octave": 7,
+      "f0_hz": 3135.963,
+      "vib_len_mm": 77.2,
+      "tension_N": 102.7,
+      "material": "nylon-high"
+    }
+  ]
+}

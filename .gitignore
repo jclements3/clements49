@@ -1,0 +1,13 @@
+# --- Purchased TurboSquid model: third-party licensed, DO NOT redistribute ---
+archive/
+extract/
+
+# Mesh-derived binaries (regenerable locally from the licensed model)
+cad/reference/*.stl
+
+# Windows download-provenance markers
+*:Zone.Identifier
+
+# Python
+__pycache__/
+*.pyc
