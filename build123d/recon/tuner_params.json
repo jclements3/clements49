@@ -1,0 +1,18 @@
+{
+ "module": 0.4,
+ "z2": 10,
+ "z1": 1,
+ "worm_pitch_dia": 5.0,
+ "worm_len": 10.0,
+ "post_dia": 4.5,
+ "string_hole": 1.2,
+ "wall": 0.8,
+ "hex_af": 4.0,
+ "ratio": 10.0,
+ "wheel_OD": 4.8,
+ "worm_OD": 5.8,
+ "centre_dist": 4.5,
+ "neck_footprint": 11.4,
+ "outward": 14.0,
+ "lead_angle_deg": 4.57
+}
