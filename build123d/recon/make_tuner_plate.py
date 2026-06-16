@@ -4,7 +4,7 @@ Two parts side by side, both viewed along the string-post axis (the packing view
   RIGHT  = TUNER     : string post + integral worm wheel + worm (hex-driven)
   LEFT   = RECEIVER  : cast-brass body co-moulded into the flax neck, with the post bore,
                        worm bore and resin-keying anchor holes the tuner drops into.
-Reads recon/tuner_params.json (the validated sizing). Writes build123d/pin.svg.
+Reads recon/tuner_params.json (the validated sizing). Writes build123d/tuner_pair_concept.svg.
 
 Run: .venv/bin/python build123d/recon/make_tuner_plate.py
 """
@@ -76,5 +76,5 @@ T_(X(0), Y(v0)+31, f"post+wheel+worm  {ratio:.0f}:1  self-locking", 9, "rgb(60,6
 T_(W*SC/2, 13, f"worm-drive tuner + receiver  |  neck footprint {EU:.1f} mm  "
    f"wheel Ø{Do2:.1f}  worm Ø{Do1:.1f}  lead {P['lead_angle_deg']:.1f}°", 11, "rgb(40,40,40)")
 S.append("</svg>")
-open(os.path.join(BD, "pin.svg"), "w").write("\n".join(S))
-print(f"wrote build123d/pin.svg  (tuner + receiver pair; footprint {EU:.1f}mm, {ratio:.0f}:1)")
+open(os.path.join(BD, "tuner_pair_concept.svg"), "w").write("\n".join(S))
+print(f"wrote build123d/tuner_pair_concept.svg  (tuner + receiver pair; footprint {EU:.1f}mm, {ratio:.0f}:1)")
