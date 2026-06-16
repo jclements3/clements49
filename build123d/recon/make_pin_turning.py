@@ -26,6 +26,9 @@ d_head, x_head = dia_in(0, 4, np.argmax)        # rounded head bulge
 d_neck, x_neck = dia_in(3, 12, np.argmin)       # neck groove behind the head
 d_shaft, _ = dia_in(24, 60, np.argmax)          # main shaft
 d_sgrv, x_sgrv = dia_in(58, 70, np.argmin)      # string-winding groove near the tip
+# first station past the neck where the shaft reaches ~full diameter
+_after = np.where((x > x_neck) & (2 * r >= 0.97 * d_shaft))[0]
+x_shaft = float(x[_after[0]]) if len(_after) else 24.0
 
 # ---- canvas (mm, y-down) ----
 rmax = r.max()
@@ -53,14 +56,19 @@ S.append('<polygon points="' + " ".join(f"{a:.2f},{b:.2f}" for a, b in top + bot
 # centreline
 line(X(-6), cy, X(L + 6), cy, w=0.15, col="rgb(90,90,90)", dash="6,1.5,1,1.5")
 
-# overall length (below)
-yL = cy + rmax + 13
-line(X(0), yL, X(L), yL, 0.15); arrow(X(0), yL, 1.6); arrow(X(L), yL, -1.6)
-text((X(0) + X(L)) / 2, yL - 1.0, f"{L:.1f}")
-# string-groove position from tip (below, shorter)
-ys = cy + rmax + 6
-line(X(x_sgrv), ys, X(L), ys, 0.15); arrow(X(x_sgrv), ys, 1.6); arrow(X(L), ys, -1.6)
-text((X(x_sgrv) + X(L)) / 2, ys - 1.0, f"{L - x_sgrv:.0f}")
+def hdim(x1, x2, y, label):           # horizontal length dim with inward arrows + ext lines
+    line(X(x1), y - 2.0, X(x1), y + 1.0, 0.1, "rgb(120,120,120)")   # extension ticks
+    line(X(x2), y - 2.0, X(x2), y + 1.0, 0.1, "rgb(120,120,120)")
+    line(X(x1), y, X(x2), y, 0.15); arrow(X(x1), y, 1.6); arrow(X(x2), y, -1.6)
+    text((X(x1) + X(x2)) / 2, y - 1.0, label)
+
+# chained segment lengths along the pin (head -> neck -> shaft start -> string groove -> tip)
+ych = cy + rmax + 6
+stations = [0.0, x_neck, x_shaft, x_sgrv, L]
+for a, b in zip(stations[:-1], stations[1:]):
+    hdim(a, b, ych, f"{b - a:.1f}")
+# overall length (below the chain)
+hdim(0.0, L, cy + rmax + 14, f"{L:.1f}")
 
 # diameter callouts (above) -- leader line up to a label
 def dia(xpos, rr, label, lift):
