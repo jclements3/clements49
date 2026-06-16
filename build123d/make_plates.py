@@ -54,8 +54,11 @@ def make_plate(string_set, scale, out_path):
     sheet_w = row_w
     sheet_h = row_bottom
     parts = [None]  # header placeholder
-    # TOP (above side, x = sx so its Y range maps to the side's Y range)
+    # TOP (above side). Mirror it horizontally so its depth(Y) direction matches the
+    # SIDE view -> the column lands on the LEFT in both, aligned (was mirrored).
+    parts.append(f'<g transform="matrix(-1,0,0,1,{2*sx + t["w"]:.3f},0)">')
     parts.append(_cell(t, sx, 0.0))
+    parts.append("</g>")
     # ROW (bottom-aligned)
     parts.append(_cell(f, fx, row_bottom - f["h"]))
     parts.append(_cell(s, sx, row_bottom - s["h"]))

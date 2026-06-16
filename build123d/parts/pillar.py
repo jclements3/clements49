@@ -1,73 +1,47 @@
-"""Pillar -- tall slightly-leaning tapered ROUND column (the "pole").
+"""Pillar -- a CYLINDER shaft wrapped with an Archimedean (constant-pitch) SPIRAL ridge.
 
-Built as a loft of horizontal Circles stacked along the pillar's axis.
-The axis leans linearly in x-z (cx = AXIS_SLOPE*z + AXIS_INTERCEPT) while
-y stays constant. The clean pole tapers from ~6.4 at the base to a ~4.6
-waist near mid-height then widens again toward the top; the very bottom is
-a wide foot flare and the top has a smaller collar flare (joints to the
-neighbouring parts). Model units, original world coords.
-
-Measured from stl/pillar.stl (trimesh, median radius per z-band).
+Per request: the column is a plain round cylinder along the pillar's (slightly leaning)
+axis, decorated with an evenly-spaced spiral winding up it (a helix on the cylinder =
+the Archimedean / constant-pitch spiral). Model units, original world coords.
+Parameters below (radius, turns, ridge) are tunable.
 """
 import sys, os; sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from build123d import *
 
-# --- Axis (slight lean in x-z, constant y) -------------------------------
-Z_BOTTOM      = 15.5    # bottom of pillar (model z)
-Z_TOP         = 216.4   # top of pillar
-AXIS_SLOPE    = -0.0314  # dcx/dz : column leans toward -x as it rises
-AXIS_INTERCEPT = 1.055   # cx = AXIS_SLOPE*z + AXIS_INTERCEPT
-Y_CENTER      = -40.5    # constant y of the column centerline
+# --- axis (matches the measured column: leans slightly in x-z, constant y) ---
+Z_BOTTOM, Z_TOP = 15.5, 216.4
+AXIS_SLOPE, AXIS_INTERCEPT = -0.0314, 1.055   # cx = slope*z + intercept
+Y_CENTER = -40.5
 
-# --- Radius profile: (z, x_radius, y_radius) control rings ----------------
-# The slender pole is round (x_radius == y_radius). The very bottom is a
-# splayed FOOT flange (wider in x than y) and the top has a small collar
-# flare. Anisotropic rings are lofted as ellipses.
-FOOT_RX = 24.2   # bottom foot half-width in x (sets overall x bbox)
-FOOT_RY = 16.2   # bottom foot half-width in y
-PROFILE = [
-    (15.5,  FOOT_RX, FOOT_RY),  # splayed bottom foot flange
-    (18.0,   8.0,  8.0),        # foot collapsing into round pole
-    (30.0,   6.6,  6.6),        # base of slender pole
-    (43.6,   5.3,  5.3),
-    (67.7,   4.6,  4.6),        # waist (thinnest)
-    (140.0,  5.0,  5.0),
-    (188.0,  5.8,  5.8),        # pole widening toward top
-    (205.0,  8.5,  8.5),        # collar flare begins
-    (216.4,  9.4,  9.4),        # top collar flare
-]
-
+# --- cylinder + spiral parameters -------------------------------------------
+R          = 8.0     # cylinder radius (model units)
+TURNS      = 10      # number of spiral turns up the column
+RIDGE_R    = 1.6     # radius of the spiral ridge tube (raised relief on the shaft)
 
 def _cx(z):
     return AXIS_SLOPE * z + AXIS_INTERCEPT
 
-
-def _ring(z, rx, ry):
-    """Horizontal ring centered on the leaning axis at height z.
-
-    Circle when rx == ry, otherwise an ellipse (full 0..360 arc).
-    """
-    cx = _cx(z)
-    with BuildSketch(Plane.XY.offset(z)) as sk:
-        if abs(rx - ry) < 1e-9:
-            with Locations((cx, Y_CENTER)):
-                Circle(rx)
-        else:
-            with BuildLine():
-                EllipticalCenterArc(center=(cx, Y_CENTER), x_radius=rx, y_radius=ry,
-                                    start_angle=0, end_angle=360)
-            make_face()
-    return sk.sketch
-
-
 def pillar():
-    """Return the pillar Solid: loft of round/elliptical rings along the leaning axis."""
-    rings = [_ring(z, rx, ry) for (z, rx, ry) in PROFILE]
-    return loft(rings)
+    """Cylinder shaft + helical (Archimedean) spiral ridge, placed on the leaning axis."""
+    bottom = Vector(_cx(Z_BOTTOM), Y_CENTER, Z_BOTTOM)
+    top    = Vector(_cx(Z_TOP),    Y_CENTER, Z_TOP)
+    axis   = top - bottom
+    L      = axis.length
+    place  = Plane(origin=bottom, z_dir=axis.normalized()).location   # local +Z -> column axis
 
+    # build shaft + spiral in a LOCAL +Z frame, then place onto the leaning axis
+    shaft = Cylinder(radius=R, height=L, align=(Align.CENTER, Align.CENTER, Align.MIN))
+    with BuildLine() as ln:
+        Helix(pitch=L / TURNS, height=L, radius=R)          # spiral on the cylinder surface
+    path = ln.line
+    prof_plane = Plane(origin=path @ 0, z_dir=path % 0)     # small circle normal to the helix
+    with BuildSketch(prof_plane) as sk:
+        Circle(RIDGE_R)
+    spiral = sweep(sk.sketch, path=path)                    # tube following the spiral
+    col = shaft + spiral                                    # raised spiral relief on the shaft
+    return col.located(place)
 
 if __name__ == "__main__":
     s = pillar()
-    print("pillar volume", round(s.volume, 1),
-          "valid", s.is_valid,
+    print("pillar volume", round(s.volume, 1), "valid", s.is_valid,
           "bbox", [round(v, 1) for v in s.bounding_box().size])
