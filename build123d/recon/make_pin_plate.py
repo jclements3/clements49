@@ -26,11 +26,15 @@ def silhouette(mesh, right, up):
     a = tri[:, 1] - tri[:, 0]; b = tri[:, 2] - tri[:, 0]
     keep = np.abs(a[:, 0] * b[:, 1] - a[:, 1] * b[:, 0]) > 1e-9
     g = unary_union([Polygon(t) for t in tri[keep]])
+    g = g.simplify(0.012)                       # smooth mesh micro-jaggies
     rings = []
-    for poly in (g.geoms if g.geom_type == "MultiPolygon" else [g]):
-        if not poly.is_empty:
-            rings.append(list(poly.exterior.coords))
-            rings += [list(h.coords) for h in poly.interiors]
+    geoms = g.geoms if g.geom_type == "MultiPolygon" else [g]
+    main_area = max((p.area for p in geoms), default=0.0)
+    for poly in geoms:
+        if poly.is_empty or poly.area < 0.02 * main_area:   # drop union slivers
+            continue
+        rings.append(list(poly.exterior.coords))
+        rings += [list(h.coords) for h in poly.interiors if h.length > 0.2]
     return rings
 
 # pick one full-length pin body and center it on the origin
