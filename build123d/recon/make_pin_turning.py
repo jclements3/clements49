@@ -1,84 +1,78 @@
-"""Dimensioned lathe TURNING drawing of the designed pin (build123d/pin.svg).
+"""Dimensioned lathe TURNING drawing of the ORIGINAL (measured-cleaned) pin -> pin.svg.
 
 Full longitudinal section (profile mirrored about the turning axis) + centreline +
-drilled cross-hole (hidden) + diameter callouts and length dimensions. Reads the shared
-design recon/pin_design.json (same data parts/pins.py revolves). Pure plain-venv.
+dimensions of the real turned features (overall length, shaft Ø, head Ø, the two grooves).
+Reads recon/pin_profile.json -- the same measured-cleaned profile parts/pins.py revolves.
 
-Run: .venv/bin/python build123d/recon/make_pin_turning.py   -> build123d/pin.svg
+Run: .venv/bin/python build123d/recon/make_pin_turning.py
 """
 import os, json
+import numpy as np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 BD = os.path.dirname(HERE)
-D = {k: v for k, v in json.load(open(os.path.join(HERE, "pin_design.json"))).items()
-     if not k.startswith("_")}
+mm = 8.86
+P = np.array(json.load(open(os.path.join(HERE, "pin_profile.json")))["profile"]) * mm  # -> mm
+x, r = P[:, 0], P[:, 1]
+L = float(x.max())
 
-L, c = D["length"], D["chamfer"]
-rs, rd, rc = D["d_shaft"]/2, D["d_drive"]/2, D["d_collar"]/2
-ld, lc = D["l_drive"], D["l_collar"]
+def dia_in(a, b, fn):                 # diameter (2r) selected by fn over x in [a,b]
+    m = (x >= a) & (x <= b)
+    idx = np.where(m)[0]
+    j = idx[fn(r[idx])]
+    return 2 * r[j], x[j]
 
-# half profile (x, r) drive -> collar -> shaft -> tip
-prof = [(0, rd-c), (c, rd), (ld, rd), (ld, rc), (ld+lc, rc),
-        (ld+lc, rs), (L-c, rs), (L, rs-c)]
+d_head, x_head = dia_in(0, 4, np.argmax)        # rounded head bulge
+d_neck, x_neck = dia_in(3, 12, np.argmin)       # neck groove behind the head
+d_shaft, _ = dia_in(24, 60, np.argmax)          # main shaft
+d_sgrv, x_sgrv = dia_in(58, 70, np.argmin)      # string-winding groove near the tip
 
-# ---- canvas (mm, y-down); margins leave room for dimensions ----
-MT, MB, ML, MR = 20.0, 20.0, 16.0, 16.0
+# ---- canvas (mm, y-down) ----
+rmax = r.max()
+MT, MB, ML, MR = 22.0, 20.0, 16.0, 16.0
 W = L + ML + MR
-H = D["d_collar"] + MT + MB
+Hh = 2 * rmax + MT + MB
 PX = 980.0 / W
-cy = MT + rc                      # centreline y
-ox = ML                           # part x-origin
-def X(x): return ox + x
-def Yt(r): return cy - r          # top
-def Yb(r): return cy + r          # bottom
-
+cy = MT + rmax
+ox = ML
+X = lambda v: ox + v
 S = []
 def line(x1, y1, x2, y2, w=0.18, col="black", dash=None):
-    da = f' stroke-dasharray="{dash}"' if dash else ""
-    S.append(f'<line x1="{x1:.2f}" y1="{y1:.2f}" x2="{x2:.2f}" y2="{y2:.2f}" '
-             f'stroke="{col}" stroke-width="{w}"{da}/>')
-def text(x, y, s, sz=2.6, anc="middle"):
-    S.append(f'<text x="{x:.2f}" y="{y:.2f}" font-family="sans-serif" font-size="{sz}" '
-             f'text-anchor="{anc}">{s}</text>')
+    d = f' stroke-dasharray="{dash}"' if dash else ""
+    S.append(f'<line x1="{x1:.2f}" y1="{y1:.2f}" x2="{x2:.2f}" y2="{y2:.2f}" stroke="{col}" stroke-width="{w}"{d}/>')
+def text(x1, y1, s, sz=2.6, anc="middle"):
+    S.append(f'<text x="{x1:.2f}" y="{y1:.2f}" font-family="sans-serif" font-size="{sz}" text-anchor="{anc}">{s}</text>')
+def arrow(x1, y1, dx):
+    S.append(f'<path d="M{x1:.2f},{y1:.2f} l{dx:.2f},-0.9 l0,1.8 z" fill="black"/>')
 
-# ---- part outline (full section) ----
-top = [(X(x), Yt(r)) for x, r in prof]
-bot = [(X(x), Yb(r)) for x, r in prof]
-pts = top + bot[::-1]
-S.append('<polygon points="' + " ".join(f"{x:.2f},{y:.2f}" for x, y in pts) +
+# part outline (full section)
+top = [(X(xx), cy - rr) for xx, rr in P]
+bot = [(X(xx), cy + rr) for xx, rr in P]
+S.append('<polygon points="' + " ".join(f"{a:.2f},{b:.2f}" for a, b in top + bot[::-1]) +
          '" fill="none" stroke="black" stroke-width="0.3"/>')
+# centreline
+line(X(-6), cy, X(L + 6), cy, w=0.15, col="rgb(90,90,90)", dash="6,1.5,1,1.5")
 
-# ---- centreline (dash-dot) ----
-line(X(-6), cy, X(L+6), cy, w=0.15, col="rgb(90,90,90)", dash="6,1.5,1,1.5")
+# overall length (below)
+yL = cy + rmax + 13
+line(X(0), yL, X(L), yL, 0.15); arrow(X(0), yL, 1.6); arrow(X(L), yL, -1.6)
+text((X(0) + X(L)) / 2, yL - 1.0, f"{L:.1f}")
+# string-groove position from tip (below, shorter)
+ys = cy + rmax + 6
+line(X(x_sgrv), ys, X(L), ys, 0.15); arrow(X(x_sgrv), ys, 1.6); arrow(X(L), ys, -1.6)
+text((X(x_sgrv) + X(L)) / 2, ys - 1.0, f"{L - x_sgrv:.0f}")
 
-# ---- drilled cross-hole (hidden, dashed): walls span hole dia at hole_x ----
-hx = L - D["hole_from_tip"]; hr = D["string_hole"]/2
-line(X(hx-hr), Yt(rs), X(hx-hr), Yb(rs), w=0.15, col="rgb(60,60,60)", dash="1.4,1")
-line(X(hx+hr), Yt(rs), X(hx+hr), Yb(rs), w=0.15, col="rgb(60,60,60)", dash="1.4,1")
+# diameter callouts (above) -- leader line up to a label
+def dia(xpos, rr, label, lift):
+    line(X(xpos), cy - rr, X(xpos), cy - rmax - lift, 0.15)
+    text(X(xpos), cy - rmax - lift - 1.0, label)
+dia(x_head, d_head / 2, f"Ø{d_head:.1f}", 4)
+dia(x_neck, d_neck / 2, f"Ø{d_neck:.1f}", 10)
+dia((24 + 58) / 2, d_shaft / 2, f"Ø{d_shaft:.1f}", 4)
+dia(x_sgrv, d_sgrv / 2, f"Ø{d_sgrv:.1f}", 10)
 
-# ---- dimension helpers ----
-def arrow(x, y, dx):                       # small arrowhead at (x,y) pointing +/-x
-    S.append(f'<path d="M{x:.2f},{y:.2f} l{dx:.2f},-0.9 l0,1.8 z" fill="black"/>')
-def hdim(x1, x2, y, label):                # horizontal length dimension
-    line(x1, y, x2, y, w=0.15)
-    arrow(x1, y, 1.6); arrow(x2, y, -1.6)
-    text((x1+x2)/2, y-1.0, label)
-def lead(xf, yf, xt, yt, label, anc="middle"):   # diameter leader + label
-    line(xf, yf, xt, yt, w=0.15)
-    text(xt, yt-1.0 if yt < cy else yt+3.0, label, anc=anc)
-
-# length dims (below)
-yb1 = cy + rc + 7
-hdim(X(0), X(L), cy + rc + 13, f"{L:.1f}")
-hdim(X(0), X(ld), yb1, f"{ld:.0f}")
-hdim(X(hx), X(L), yb1, f"{D['hole_from_tip']:.0f}")
-# diameter callouts (above)
-lead(X(ld/2), Yt(rd), X(ld/2), cy - rc - 5, f"Ø{D['d_drive']:.1f}")
-lead(X(ld+lc/2), Yt(rc), X(ld+lc/2), cy - rc - 11, f"Ø{D['d_collar']:.1f}")
-lead(X((ld+lc+L)/2), Yt(rs), X((ld+lc+L)/2), cy - rc - 5, f"Ø{D['d_shaft']:.1f}")
-lead(X(hx), Yt(rs), X(hx), cy - rc - 11, f"Ø{D['string_hole']:.1f} thru")
-
-svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{W*PX:.0f}" height="{H*PX:.0f}" '
-       f'viewBox="0 0 {W:.2f} {H:.2f}">\n' + "\n".join(S) + "\n</svg>\n")
+svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{W*PX:.0f}" height="{Hh*PX:.0f}" '
+       f'viewBox="0 0 {W:.2f} {Hh:.2f}">\n' + "\n".join(S) + "\n</svg>\n")
 open(os.path.join(BD, "pin.svg"), "w").write(svg)
-print(f"wrote build123d/pin.svg  ({L:.1f}mm pin, {W:.0f}x{H:.0f}mm sheet -> {W*PX:.0f}x{H*PX:.0f}px)")
+print(f"wrote build123d/pin.svg | head Ø{d_head:.1f} neck Ø{d_neck:.1f} shaft Ø{d_shaft:.1f} "
+      f"groove Ø{d_sgrv:.1f}@{x_sgrv:.0f}mm  L={L:.1f}mm")
