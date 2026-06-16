@@ -11,6 +11,7 @@ import sys, os, re
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "parts"))
 import assembly, util
+from parts.strings import strings_by_color
 
 # view -> (view_dir, up). TOP uses up=+X so its horizontal is the depth (Y), matching SIDE.
 VIEWS = {
@@ -34,11 +35,14 @@ def _cell(v, x, y):    # nested svg box at (x,y), size = its own viewBox (1:1 ->
             f'viewBox="{x0:.3f} {y0:.3f} {w:.3f} {h:.3f}">{v["inner"]}</svg>')
 
 def make_plate(string_set, scale, out_path):
-    asm = assembly.harp(string_set=string_set)
+    # Frame only (no string rods) for black HLR; strings drawn as coloured overlay
+    # lines on top (C red, F blue, others dark gray) -- no black string strokes.
+    frame = assembly.harp(string_set=string_set, include_strings=False)
+    overlays = strings_by_color(string_set=string_set)
     V = {}
     for name, (vd, up) in VIEWS.items():
         p = f"/tmp/_pl_{name}.svg"
-        util.hlr_svg(asm, p, view_dir=vd, up=up, scale=scale)
+        util.hlr_svg(frame, p, view_dir=vd, up=up, scale=scale, overlays=overlays)
         V[name] = _parse(p)
     f, s, r, t = V["front"], V["side"], V["rear"], V["top"]
     # x positions of the row

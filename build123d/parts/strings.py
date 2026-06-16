@@ -27,6 +27,31 @@ def _rod(board, pin):
                     align=(Align.CENTER, Align.CENTER, Align.MIN)).located(plane.location)
 
 
+# Drawing colours by note name (C = tonic red, F = blue, rest dark gray) --------
+STRING_COLORS = {"C": (0.85, 0.0, 0.0), "F": (0.0, 0.0, 0.85)}
+STRING_COLOR_OTHER = (0.25, 0.25, 0.25)
+
+
+def _color_for(note):
+    return STRING_COLORS.get(note[0], STRING_COLOR_OTHER)
+
+
+def strings_by_color(string_set=49):
+    """Group string rods by draw colour -> list of (Compound, (r,g,b)).
+
+    Same subset rule as strings(); used to overlay coloured string lines on the
+    frame HLR (C red, F blue, others dark gray).
+    """
+    subset = STRINGS if string_set >= 49 else STRINGS[2:]
+    groups = {}
+    for s in subset:
+        r = _rod(s["board"], s["pin"])
+        if r is None:
+            continue
+        groups.setdefault(_color_for(s["note"]), []).append(r)
+    return [(Compound(rods), col) for col, rods in groups.items()]
+
+
 def strings(string_set=49):
     """Return a Compound of string rods (model units, world coords).
 
