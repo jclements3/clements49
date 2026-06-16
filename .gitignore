@@ -5,6 +5,9 @@ blender/
 
 # Mesh-derived binaries (regenerable locally from the licensed model)
 cad/reference/*.stl
+cad/parts_mesh/
+build123d/recon/brep/
+build123d/recon/sections/
 
 # Windows download-provenance markers
 *:Zone.Identifier

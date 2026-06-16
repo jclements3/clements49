@@ -1,0 +1,25 @@
+{
+  "_comment": "Faithful extraction of clements49.blend -> build123d B-rep solids. Each entry maps a blend object family (joined) to a functional harp part, reconstructed by slicing the exported mesh along `axis` into `N` cross-sections (each arc-length-resampled to `M` points, CCW, consistent start) and lofting (ruled). Geometry (STL/brep/sections) is derived from the licensed TurboSquid model and is gitignored; only this manifest + the pipeline code are tracked. Regenerate with recon/build_recon.py.",
+  "units": "model units (~8.86 mm/unit)",
+  "axis_codes": {"0": "X (L-R width)", "1": "Y (front-back depth)", "2": "Z (vertical)", "pca": "principal axis"},
+  "parts": [
+    {"function": "column",        "blend": "harp_pole",           "axis": 2, "N": 30, "M": 48},
+    {"function": "neck",          "blend": "harp_top_wood",       "axis": 1, "N": 40, "M": 48},
+    {"function": "soundbox",      "blend": "harp_big_side_pivot", "axis": 2, "N": 44, "M": 48, "open_shell": true},
+    {"function": "base_body",     "blend": "harp_base_body",      "axis": 2, "N": 16, "M": 48},
+    {"function": "base_bottom",   "blend": "harp_base_bottom",    "axis": 2, "N": 8,  "M": 48},
+    {"function": "leg",           "blend": "harp_leg",            "axis": 0, "N": 24, "M": 48}
+  ],
+  "strings": {"function": "strings", "blend": "harp_string", "note": "47 endpoints already measured into clements49_params.STRINGS; +2 bass extrapolated for the 49-set"},
+  "verification": {
+    "method": "bbox + volume vs source mesh; visual HLR side-view confirmed harp silhouette",
+    "bbox_recon_vs_mesh": {
+      "column":      [[21.8,17.6,185.2],[23.2,19.2,191.6]],
+      "neck":        [[13.8,92.9,62.9],[14.1,95.3,62.9]],
+      "soundbox":    [[59.6,91.4,133.7],[60.8,92.9,136.8]],
+      "base_body":   [[45.7,58.4,9.8],[45.8,58.5,10.5]],
+      "base_bottom": [[48.0,61.1,2.1],[48.1,61.2,2.4]],
+      "leg":         [[57.6,26.0,13.3],[60.2,26.7,13.4]]
+    }
+  }
+}
