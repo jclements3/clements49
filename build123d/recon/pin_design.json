@@ -1,0 +1,12 @@
+{
+  "_comment": "Designed turnable tuning-pin blank, millimetres. x=0 at the drive (tuning-key) end. Shared by parts/pins.py (revolve) and recon/make_pin_turning.py (dimensioned lathe drawing).",
+  "length": 73.5,
+  "d_shaft": 7.2,
+  "d_drive": 6.0,
+  "l_drive": 12.0,
+  "d_collar": 9.0,
+  "l_collar": 2.5,
+  "chamfer": 1.0,
+  "string_hole": 1.6,
+  "hole_from_tip": 7.0
+}
