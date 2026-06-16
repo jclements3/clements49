@@ -14,9 +14,10 @@ AXIS_SLOPE, AXIS_INTERCEPT = -0.0314, 1.055   # cx = slope*z + intercept
 Y_CENTER = -40.5
 
 # --- cylinder + spiral parameters -------------------------------------------
-R          = 8.0     # cylinder radius (model units)
+R          = 4.635   # cylinder radius = narrowest pole diameter (9.27, measured from
+                     # clements49.blend harp_pole at z~79) / 2
 TURNS      = 10      # number of spiral turns up the column
-RIDGE_R    = 1.6     # radius of the spiral ridge tube (raised relief on the shaft)
+GROOVE_R   = 1.1     # radius of the spiral groove cut INTO the shaft surface
 
 def _cx(z):
     return AXIS_SLOPE * z + AXIS_INTERCEPT
@@ -36,9 +37,9 @@ def pillar():
     path = ln.line
     prof_plane = Plane(origin=path @ 0, z_dir=path % 0)     # small circle normal to the helix
     with BuildSketch(prof_plane) as sk:
-        Circle(RIDGE_R)
+        Circle(GROOVE_R)
     spiral = sweep(sk.sketch, path=path)                    # tube following the spiral
-    col = shaft + spiral                                    # raised spiral relief on the shaft
+    col = shaft - spiral                                    # GROOVE the spiral INTO the column
     return col.located(place)
 
 if __name__ == "__main__":
