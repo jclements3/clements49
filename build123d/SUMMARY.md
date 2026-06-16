@@ -21,6 +21,11 @@ a deliberate design choice, not a faithful trace of the mesh).
 - **Cavity volume = 49.7 L** measured from the parametric soundbox solid (~1% vs the mesh).
 - **Plates** `clements47.svg` / `clements49.svg`: third-angle HLR (FRONT·SIDE·REAR row +
   TOP aligned above SIDE, column left in both), views-only, sized ~950 px. Render verified.
+  Strings drawn as coloured overlay lines (C red, F blue, others dark gray).
+- **Faithful mesh-traced parts** (`build123d/recon/`): 6 structural families extracted from
+  the blend into **valid B-rep solids** (slice→loft, see recon/README.md), each verified by
+  bbox+volume vs the mesh; assembled HLR side view confirmed to read as a real pedal harp.
+  Correction: the real column (`harp_pole`) is a tapered/waisted post, not a cylinder.
 
 ## APPROXIMATE / DESIGNED (not a faithful mesh trace)
 - Surfaces are **idealized parametric solids**, not the mesh surfaces: soundbox = clean
