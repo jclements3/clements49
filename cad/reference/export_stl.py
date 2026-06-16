@@ -7,9 +7,9 @@ import re, json, numpy as np, trimesh
 
 OBJ="/home/clementsj/projects/clements49/extract/obj/Pedal_Harp_Instrument_convert.obj"
 OUT="/home/clementsj/projects/clements49/cad/reference"
-A=json.load(open("/home/clementsj/projects/clements49/cad/analysis/anchors.json"))
+A=json.load(open("/home/clementsj/projects/clements49/analysis/anchors.json"))
 SCALE=A["scale_mm_per_unit"]
-RAW=json.load(open("/home/clementsj/projects/clements49/cad/analysis/raw_anchors.json"))
+RAW=json.load(open("/home/clementsj/projects/clements49/analysis/raw_anchors.json"))
 xc=RAW["origin_units"]["xc"]; yc=RAW["origin_units"]["yc"]; zmin=RAW["origin_units"]["zmin"]
 
 # parse verts + per-group faces (triangulate fan)

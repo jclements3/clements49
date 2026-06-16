@@ -262,12 +262,15 @@ module sbx_hole(k, N, fn) {
     st = _sbx_lerp_station(z);
     xc = st[1];
     dy = st[3];
-    // place at the back (-y) extreme of the depth, pierce inward through wall.
-    pierce = max(20, dy);    // generous depth to cut clean through the shell
-    translate([xc, -dy/2, z])
-        rotate([90, 0, 0])               // oval lies in x-z, extrude along -y
+    // Cut the BACK (-y) wall ONLY. Extrude the oval from well outside the back
+    // surface (y = -1.6*dy, guaranteed beyond the back even with the crown)
+    // INWARD to the body centreline (y = 0): it traverses the back wall and ends
+    // inside the cavity, so it never reaches the front (+y) wall -> no second
+    // hole. (Was: a centred cutter 2*dy long that punched through BOTH walls.)
+    translate([xc, -1.6 * dy, z])
+        rotate([-90, 0, 0])              // oval in x-z, extrude +y (inward)
             scale([w/2, h/2, 1])
-                cylinder(h = 2*pierce, r = 1, center = true, $fn = max(16, fn));
+                cylinder(h = 1.6 * dy, r = 1, $fn = max(16, fn));
 }
 
 module soundbox_holes(fn = fn_med) {

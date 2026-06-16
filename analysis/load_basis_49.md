@@ -5,11 +5,11 @@ Structural load basis for the finalized **49-string** schedule **A0..G7** (scien
 This supersedes the earlier B0..A7 / 47-mesh pass. Every figure is tagged **[model]** (computed from
 the finalized schedule + the refit geometry), **[est]** (first-order estimate, stated assumptions), or **[lit]**.
 
-Reproduce with `cad/analysis/refit_49.py` (writes `string_schedule.{json,csv}` and `refit_49_loads.json`).
+Reproduce with `analysis/refit_49.py` (writes `string_schedule.{json,csv}` and `refit_49_loads.json`).
 
 Inputs:
-- String schedule: `cad/analysis/string_schedule.json` (49 strings A0..G7, per-string `tension_N`).
-- Geometry anchors: `cad/analysis/anchors.json` — measured 47-string endpoints, **re-anchored** so the
+- String schedule: `analysis/string_schedule.json` (49 strings A0..G7, per-string `tension_N`).
+- Geometry anchors: `analysis/anchors.json` — measured 47-string endpoints, **re-anchored** so the
   measured bass/treble endpoints are C1 (idx 2) and G7 (idx 48); A0 (idx 0) and B0 (idx 1) are
   **extrapolated below the bass end**, lengthening the neck pin line by ~34.7 mm and the board string
   line by ~81 mm at the bass corner. Scale 8.8598 mm/unit.

@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec env LD_LIBRARY_PATH="$HOME/miniconda3/lib" "$HOME/projects/clements49/.venv/bin/python" "$@"

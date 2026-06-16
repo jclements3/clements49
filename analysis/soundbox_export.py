@@ -15,8 +15,8 @@ import json, subprocess, os, numpy as np, trimesh
 
 P = '/home/clementsj/projects/clements49'
 SBX = f'{P}/cad/frame/soundbox.scad'
-OUT_JSON = f'{P}/cad/analysis/soundbox_reloft_data.json'
-OUT_MD   = f'{P}/cad/analysis/soundbox_reloft_data.md'
+OUT_JSON = f'{P}/analysis/soundbox_reloft_data.json'
+OUT_MD   = f'{P}/analysis/soundbox_reloft_data.md'
 
 def render(call, stl):
     scad = f'/tmp/_{os.path.basename(stl)}.scad'
@@ -106,7 +106,7 @@ def bcum(i):
         c += (s_board(j) + s_board(j - 1)) / 2.0
     return c
 b2, b48 = bcum(2), bcum(48)
-sched = json.load(open(f'{P}/cad/analysis/string_schedule.json'))['strings']
+sched = json.load(open(f'{P}/analysis/string_schedule.json'))['strings']
 string_pts = []
 for s in sched:
     i = s['idx']

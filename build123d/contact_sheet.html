@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>clements49 harp -- parametric build contact sheet</title>
+<style>
+  :root { color-scheme: light; }
+  body { font-family: -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+         margin: 24px; background: #fafafa; color: #1a1a1a; }
+  h1 { font-size: 20px; margin: 0 0 4px; }
+  p.sub { margin: 0 0 20px; color: #555; font-size: 13px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+          gap: 16px; }
+  figure { margin: 0; background: #fff; border: 1px solid #ddd; border-radius: 8px;
+           padding: 10px; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+  figure.full { grid-column: 1 / -1; }
+  figure img { width: 100%; height: 280px; object-fit: contain;
+               background: #fff; display: block; }
+  figure.full img { height: 520px; }
+  figcaption { margin-top: 8px; font-size: 13px; }
+  figcaption .name { font-weight: 600; }
+  figcaption .meta { color: #666; font-size: 11px; font-family: ui-monospace, Menlo, monospace;
+                     display: block; margin-top: 2px; }
+</style>
+</head>
+<body>
+<h1>clements49 -- parametric harp build123d contact sheet</h1>
+<p class="sub">Isometric HLR projections (view dir 1,-1,1). Solid black = visible edges, grey dashes = hidden. Model units (~8.86 mm/unit), original world coords.</p>
+
+<div class="grid">
+  <figure class="full">
+    <img src="svg/harp_iso.svg" alt="assembled harp">
+    <figcaption><span class="name">ASSEMBLY -- harp()</span>
+      <span class="meta">7 parts | bbox 73.5 x 124.2 x 216.4 | svg/harp_iso.svg</span></figcaption>
+  </figure>
+
+  <figure>
+    <img src="svg/soundbox_iso.svg" alt="soundbox">
+    <figcaption><span class="name">soundbox</span> -- half-cone loft
+      <span class="meta">valid | bbox 49.3 x 92.6 x 136.0 | svg/soundbox_iso.svg</span></figcaption>
+  </figure>
+
+  <figure>
+    <img src="svg/soundboard_iso.svg" alt="soundboard">
+    <figcaption><span class="name">soundboard</span> -- tapered plate loft
+      <span class="meta">valid | bbox 53.5 x 86.2 x 135.7 | svg/soundboard_iso.svg</span></figcaption>
+  </figure>
+
+  <figure>
+    <img src="svg/pillar_iso.svg" alt="pillar">
+    <figcaption><span class="name">pillar</span> -- leaning ring loft (column)
+      <span class="meta">valid | bbox 48.4 x 32.4 x 204.2 | svg/pillar_iso.svg</span></figcaption>
+  </figure>
+
+  <figure>
+    <img src="svg/base_iso.svg" alt="base">
+    <figcaption><span class="name">base</span> -- filleted box pedestal
+      <span class="meta">valid | bbox 60.2 x 61.1 x 15.5 | svg/base_iso.svg</span></figcaption>
+  </figure>
+
+  <figure>
+    <img src="svg/pedals_iso.svg" alt="pedals">
+    <figcaption><span class="name">pedals</span> -- 7 fanned lever boxes
+      <span class="meta">valid | bbox 73.5 x 34.7 x 2.7 | svg/pedals_iso.svg</span></figcaption>
+  </figure>
+
+  <figure>
+    <img src="svg/strings_iso.svg" alt="strings">
+    <figcaption><span class="name">strings</span> -- 49 cylinder rods (param schedule)
+      <span class="meta">valid | bbox 3.1 x 83.5 x 194.3 | svg/strings_iso.svg</span></figcaption>
+  </figure>
+
+  <figure>
+    <img src="svg/neck_iso.svg" alt="neck">
+    <figcaption><span class="name">neck</span> -- spline-profile arm + foot
+      <span class="meta">valid | bbox 14.5 x 97.4 x 70.8 | svg/neck_iso.svg</span></figcaption>
+  </figure>
+</div>
+</body>
+</html>

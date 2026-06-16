@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import json, numpy as np
 
-RAW="/home/clementsj/projects/clements49/cad/analysis/raw_anchors.json"
+RAW="/home/clementsj/projects/clements49/analysis/raw_anchors.json"
 d=json.load(open(RAW))
 SCALE=d["scale_mm_per_unit"]
 
@@ -67,7 +67,7 @@ anchors = {
   "soundbox_sections": secs,
   "base_footprint": base_fp,
 }
-with open("/home/clementsj/projects/clements49/cad/analysis/anchors.json","w") as f:
+with open("/home/clementsj/projects/clements49/analysis/anchors.json","w") as f:
     json.dump(anchors,f,indent=2)
 print("pins",len(pin_pts),"holes",len(hole_pts),"strings",len(str_pts))
 print("span",span,"pin spacing median",np.median(sp))

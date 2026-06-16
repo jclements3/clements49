@@ -201,7 +201,7 @@ out = {
     "soundbox_sections": sections,
     "base_footprint": base_footprint,
 }
-with open("/home/clementsj/projects/clements49/cad/analysis/raw_anchors.json","w") as f:
+with open("/home/clementsj/projects/clements49/analysis/raw_anchors.json","w") as f:
     json.dump(out,f,indent=2)
 print("WROTE raw_anchors.json", file=sys.stderr)
 print(f"pins={len(pins)} holes={len(holes)} strings={len(str_lower)} sections={len(sections)}", file=sys.stderr)

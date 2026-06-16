@@ -245,7 +245,7 @@ function soundbox_section_count() = len(soundbox_sections);
 // ----------------------------------------------------------------------------
 // 9. ANALYSIS / LOAD BASIS  (load_basis_49.md; reference scalars for sizing)
 // ----------------------------------------------------------------------------
-// Refit on the actual A0..G7 49-pin line (cad/analysis/refit_49.py / load_basis_49.md).
+// Refit on the actual A0..G7 49-pin line (analysis/refit_49.py / load_basis_49.md).
 load_sigma_T_N        = 9269.4;  // total string tension, A0..G7 [model]
 load_perp_pull_N      = 5500.0;  // board perpendicular pull, conservative design value (refit: 5305 @35.3° / 5578 @37°) [est S1]
 load_inplane_pull_N   = 7588.0;  // in-plane longitudinal pull, refit tension-weighted [model]

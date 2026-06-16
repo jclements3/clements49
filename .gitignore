@@ -1,6 +1,7 @@
 # --- Purchased TurboSquid model: third-party licensed, DO NOT redistribute ---
 archive/
 extract/
+blender/
 
 # Mesh-derived binaries (regenerable locally from the licensed model)
 cad/reference/*.stl
@@ -11,3 +12,8 @@ cad/reference/*.stl
 # Python
 __pycache__/
 *.pyc
+.venv/
+build123d/stl/
+build123d/**/__pycache__/
+build123d/__pycache__/
+cad/scaffold/parts/*.stl
