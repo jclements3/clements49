@@ -32,15 +32,20 @@ PARTS = [
 ]
 
 
-def harp(string_set=49):
+def harp(string_set=49, include_strings=True):
     """Return a Compound of all harp parts at world coords (model units).
 
-    string_set toggles the parametric string expansion (49 = +2 bass, 47 = baseline);
-    only the strings part depends on it, the frame geometry is shared.
+    string_set toggles the parametric string expansion (49 = +2 bass, 47 = baseline).
+    include_strings=False returns the FRAME only (strings drawn separately/coloured).
     """
     children = []
     for label, builder in PARTS:
-        shape = builder(string_set=string_set) if label == "strings" else builder()
+        if label == "strings":
+            if not include_strings:
+                continue
+            shape = builder(string_set=string_set)
+        else:
+            shape = builder()
         shape.label = label
         children.append(shape)
     return Compound(children=children)
